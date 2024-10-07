@@ -22,6 +22,8 @@ router.post('/login', (req, res) => {
     {
         return res.status(401).send({message: '비밀번호가 틀렸습니다.'});
     }
+    
+    const player = global.players[name];
 
     //응답 데이터 로그
     const responsePayload = {
@@ -64,5 +66,10 @@ router.post('/register' , (req, res)=> {
 //글로벌 플레이어 객체 초기화
 global.players = {};            //글로벌 객체 초기화
 
+//자원 저장 함수
+function saveResources()
+{
+    fs.writeFileSync('resources.json', JSON.stringify(global.players, null, 2));        //JSON 파일로 저장
+}
 
 module.exports = router;    //라우터 내보내기
