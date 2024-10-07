@@ -63,6 +63,23 @@ router.post('/register' , (req, res)=> {
     res.send({message : '등록 완료', Player:name});
 });
 
+//자원 수집 메서드
+router.post('/collect/:playerName' , (req, res)=> {
+    const player = global.players[req.params.playerName];
+
+    if(!player)
+    {
+        return res.status(404).send({message:'플레이어를 찾을 수 없습니다. '});
+    }
+
+    player.resources.metal += 10;
+    player.resources.crystal += 5;
+    player.resources.deuterium += 2;
+
+    saveResources();    //자원 저장
+    res.send(player.resources);
+});
+
 //글로벌 플레이어 객체 초기화
 global.players = {};            //글로벌 객체 초기화
 
